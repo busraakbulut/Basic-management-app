@@ -30,6 +30,6 @@ export async function post(endpoint: String, data: any) {
   return responseData;
  } catch (error) {
   console.log('Error fetching data', error);
-  return null || undefined;
+  return null;
  }
 }
