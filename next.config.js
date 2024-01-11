@@ -1,4 +1,11 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+ reactStrictMode: true,
 
-module.exports = nextConfig
+ env: {
+  //   JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,
+  MONGODB_URI: process.env.MONGODB_URI,
+ },
+};
+
+module.exports = nextConfig;
