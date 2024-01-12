@@ -1,15 +1,11 @@
 import mongoose from 'mongoose';
 
 const CompanySchema = new mongoose.Schema({
- company_id: {
-  type: mongoose.Schema.Types.ObjectId,
-  required: [true, 'Please provide a user id.'],
- },
  company_name: {
   type: String,
   required: [true, 'Please provide a company name.'],
  },
- incorparation_country: {
+ incorporation_country: {
   type: String,
   required: [true, 'Please provide a company address.'],
  },

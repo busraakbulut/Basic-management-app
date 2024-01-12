@@ -1,33 +1,30 @@
 import mongoose from 'mongoose';
 
 const ProductSchema = new mongoose.Schema({
- Product_id: {
-  type: mongoose.Schema.Types.ObjectId,
-  required: [true, 'Please provide a user id.'],
- },
  product_name: {
   type: String,
   required: [true, 'Please provide a product name.'],
  },
- Product_category: {
+ product_category: {
   type: String,
   required: [true, 'Please provide a product category.'],
  },
- Product_amount: {
+ product_amount: {
   type: Number,
   required: [true, 'Please provide a product amount.'],
  },
- Amount_unit: {
+ amount_unit: {
   type: String,
   required: [true, 'Please provide a amount unit.'],
  },
- Company: {
-  type: String,
+ company: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: 'Company',
   required: [true, 'Please provide a company.'],
  },
 });
 
 const Product =
- mongoose.models.Product || mongoose.model('Product', ProductSchema);
+ mongoose.models.product || mongoose.model('Product', ProductSchema);
 
 export default Product;
