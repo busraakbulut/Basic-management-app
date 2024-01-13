@@ -1,36 +1,80 @@
-import { NextApiRequest, NextApiResponse } from 'next';
 import dbConnect from '@/lib/dbConnect';
 import Product from '@/models/productSchema';
+import { NextRequest, NextResponse } from 'next/server';
 
-// Connect to the MongoDB database
-
-async function handler(req: NextApiRequest, res: NextApiResponse) {
- await dbConnect();
- const { method } = req;
-
- switch (method) {
-  case 'GET':
-   try {
-    const products = await Product.find({});
-    res.status(200).json(products);
-   } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
-   }
-   break;
-
-  case 'POST':
-   try {
-    const newProduct = await Product.create(req.body);
-    res.status(201).json(newProduct);
-   } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
-   }
-   break;
-
-  default:
-   res.status(405).json({ error: 'Method Not Allowed' });
-   break;
+export async function GET() {
+ try {
+  await dbConnect();
+  const products = await Product.find();
+  return NextResponse.json(
+   {
+    message: 'Products fetched successfully.',
+    success: true,
+    data: products,
+   },
+   { status: 200 }
+  );
+ } catch (error) {
+  return NextResponse.json(
+   {
+    error: 'Products could not be fetched.',
+   },
+   { status: 500 }
+  );
  }
 }
 
-export default handler;
+export async function POST(req: NextRequest) {
+ try {
+  await dbConnect();
+  const data = await req.json();
+
+  const {
+   product_name,
+   product_description,
+   product_category,
+   product_price,
+   product_image,
+  } = data;
+  const isExisting = await Product.findOne({
+   product_name,
+   product_description,
+   product_category,
+   product_price,
+   product_image,
+  });
+
+  if (isExisting) {
+   return NextResponse.json(
+    {
+     error: 'This product already exists.',
+    },
+    { status: 400 }
+   );
+  }
+
+  const newProduct = await Product.create({
+   product_name,
+   product_description,
+   product_category,
+   product_price,
+   product_image,
+  });
+
+  return NextResponse.json(
+   {
+    message: 'Product created successfully.',
+    success: true,
+    data: newProduct,
+   },
+   { status: 201 }
+  );
+ } catch (error) {
+  return NextResponse.json(
+   {
+    error: 'Product could not be created.',
+   },
+   { status: 500 }
+  );
+ }
+}

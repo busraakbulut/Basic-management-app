@@ -36,8 +36,6 @@ export async function POST(req: NextRequest) {
    company_website,
   } = data;
   const isExisting = await Company.findOne({
-   company_name,
-   incorporation_country,
    company_legal_number,
    company_website,
   });
@@ -66,7 +64,7 @@ export async function POST(req: NextRequest) {
     success: true,
     data: company,
    },
-   { status: 201 }
+   { status: 200 }
   );
  } catch (error) {
   console.error('Error:', error);

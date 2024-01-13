@@ -1,46 +1,8 @@
-// import React from 'react';
-// import { useFormik } from 'formik';
-
-// const AddCompany: React.FC = () => {
-//  const formik = useFormik({
-//   initialValues: {
-//    company_name: '',
-//    incorporation_country: '',
-//    company_legal_number: '',
-//    company_website: '',
-//   },
-
-//   onSubmit: (values) => {
-//    console.log(values);
-//   },
-//  });
-
-//  const { values, errors, touched, handleChange, handleSubmit, handleBlur } =
-//   formik;
-
-//  return (
-//   <div>
-//    <form onSubmit={handleSubmit}>
-//     <label htmlFor="name"></label>
-//     <input type="text" name="name" />
-//    </form>
-//   </div>
-//  );
-// };
-
-// export default AddCompany;
 'use client';
+import InputField from '@/components/input/Input';
 import { useFormik } from 'formik';
-import { useState } from 'react';
 
-const Home = () => {
- const [companyData, setCompanyData] = useState({
-  company_name: '',
-  incorporation_country: '',
-  company_legal_number: '',
-  company_website: '',
- });
-
+const Company = () => {
  const formik = useFormik({
   initialValues: {
    company_name: '',
@@ -48,7 +10,6 @@ const Home = () => {
    company_legal_number: '',
    company_website: '',
   },
-
   onSubmit: (values) => {
    fetch('http://localhost:3000/api/dashboard/company', {
     method: 'POST',
@@ -71,48 +32,44 @@ const Home = () => {
   formik;
 
  return (
-  <div>
+  <div className="flex items-center justify-center">
    <h1>Next.js Company Add Example</h1>
    <form onSubmit={handleSubmit}>
-    <label>
-     Company Name:
-     <input
-      type="text"
-      name="company_name"
-      value={values.company_name}
-      onChange={handleChange}
-     />
-    </label>
+    <InputField
+     type="text"
+     name="company_name"
+     label="Company Name"
+     value={values.company_name}
+     onChange={handleChange}
+     onBlur={handleBlur}
+    />
     <br />
-    <label>
-     Incorporation Country:
-     <input
-      type="text"
-      name="incorporation_country"
-      value={values.incorporation_country}
-      onChange={handleChange}
-     />
-    </label>
+    <InputField
+     type="text"
+     name="incorporation_country"
+     label="Incorporation Country"
+     value={values.incorporation_country}
+     onChange={handleChange}
+     onBlur={handleBlur}
+    />
     <br />
-    <label>
-     Company Legal Number:
-     <input
-      type="text"
-      name="company_legal_number"
-      value={values.company_legal_number}
-      onChange={handleChange}
-     />
-    </label>
+    <InputField
+     type="number"
+     name="company_legal_number"
+     label="Company Legal Number"
+     value={values.company_legal_number}
+     onChange={handleChange}
+     onBlur={handleBlur}
+    />
     <br />
-    <label>
-     Company Website:
-     <input
-      type="text"
-      name="company_website"
-      value={values.company_website}
-      onChange={handleChange}
-     />
-    </label>
+    <InputField
+     type="text"
+     name="company_website"
+     label="Company Website"
+     value={values.company_website}
+     onChange={handleChange}
+     onBlur={handleBlur}
+    />
     <br />
     <button type="submit">Add Company</button>
    </form>
@@ -120,4 +77,4 @@ const Home = () => {
  );
 };
 
-export default Home;
+export default Company;
