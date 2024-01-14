@@ -38,5 +38,5 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 ## Deployed on Vercel
 
 To see the result of the work please visit the address below. 
-[https://basic-management-app.vercel.app/]
+[Vercel Link](https://basic-management-app.vercel.app/)
 
