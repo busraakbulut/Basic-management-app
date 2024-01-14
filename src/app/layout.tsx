@@ -23,7 +23,7 @@ export default function RootLayout({
     <ToastContainer />
     <div>
      <Header />
-     <main className="pt-[var(--navigation-height)]">{children}</main>
+     <main>{children}</main>
      <Footer />
     </div>
    </body>

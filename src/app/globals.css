@@ -4,7 +4,8 @@
 
 @layer base {
  :root {
-  --navigation-height: 3.2rem;
+  --nav-height: 3.2rem;
+  --footer-height: 1.2rem;
  }
  html {
   @apply bg-background font-sans text-off-white;
