@@ -192,13 +192,20 @@ const Product: React.FC = () => {
   <div className="m-52">
    <div className=" bg-white  rounded-md shadow-lg p-16 ">
     <h1 className="text-xl text-black text-center font-semibold mb-4">
-     Companies
+     Products
     </h1>
     <div className="flex justify-end items-center ">
      <ModalComponent
       open={open}
       setOpen={setOpen}
-      content={<AddProduct handleClose={handleClose} setFlag={setFlag} />}>
+      content={
+       <AddProduct
+        handleClose={handleClose}
+        setFlag={setFlag}
+        data={data}
+        setData={setData}
+       />
+      }>
       <ButtonComponent className="mb-4  flex bg-gradient rounded-full py-2 px-4">
        <BiPlus className="mr-2 text-2xl text-white " />
        Add Product

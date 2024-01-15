@@ -9,8 +9,15 @@ import { RxCross2 } from 'react-icons/rx';
 interface addProps {
  handleClose: () => void;
  setFlag: React.Dispatch<React.SetStateAction<boolean>>;
+ data: any;
+ setData: React.Dispatch<React.SetStateAction<any>>;
 }
-const AddProduct: React.FC<addProps> = ({ handleClose, setFlag }) => {
+const AddProduct: React.FC<addProps> = ({
+ handleClose,
+ setFlag,
+ data,
+ setData,
+}) => {
  const formik = useFormik({
   initialValues: {
    product_name: '',
@@ -31,6 +38,7 @@ const AddProduct: React.FC<addProps> = ({ handleClose, setFlag }) => {
     .then((res) => res.json())
     .then(() => {
      setFlag(true);
+     setData([...data, values]);
     })
     .catch((err) => {
      console.log(err);
