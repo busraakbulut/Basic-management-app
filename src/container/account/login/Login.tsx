@@ -32,6 +32,7 @@ const Login = () => {
      Cookies.set('token', data?.data?.token);
      toastSuccessNotify('Successfully logged in');
      push('/dashboard');
+     window.location.reload();
     } else {
      toastWarnNotify('Email or password wrong!');
     }

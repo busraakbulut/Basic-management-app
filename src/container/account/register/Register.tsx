@@ -157,7 +157,7 @@ const Register = () => {
       )}
      </div>
 
-     <ButtonComponent type="submit">Log in</ButtonComponent>
+     <ButtonComponent type="submit">Sign up</ButtonComponent>
     </form>
    </div>
   </div>
