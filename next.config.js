@@ -3,7 +3,7 @@ const nextConfig = {
  reactStrictMode: true,
 
  env: {
-  //   JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,
+  JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,
   MONGODB_URI: process.env.MONGODB_URI,
  },
 };

@@ -18,7 +18,7 @@ const ProductSchema = new mongoose.Schema({
   required: [true, 'Please provide a amount unit.'],
  },
  company: {
-  type: mongoose.Schema.Types.ObjectId,
+  type: String,
   ref: 'Company',
   required: [true, 'Please provide a company.'],
  },

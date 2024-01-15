@@ -62,9 +62,8 @@ export async function POST(req: NextRequest) {
    {
     message: 'Company created successfully.',
     success: true,
-    data: company,
    },
-   { status: 200 }
+   { status: 201 }
   );
  } catch (error) {
   console.error('Error:', error);

@@ -2,10 +2,13 @@ import Link from 'next/link';
 import React from 'react';
 import { VariantProps, cva } from 'class-variance-authority';
 
-interface LinkButtonProps extends VariantProps<typeof buttonClasses> {
+interface LinkButtonProps
+ extends VariantProps<typeof buttonClasses>,
+  React.AnchorHTMLAttributes<HTMLAnchorElement> {
  children: React.ReactNode;
  href: string;
  className?: string;
+ onClick?: () => void;
 }
 
 const buttonClasses = cva(
@@ -23,9 +26,9 @@ const buttonClasses = cva(
   },
  }
 );
-const LinkButton = ({ children, href, size }: LinkButtonProps) => {
+const LinkButton = ({ children, href, size, onClick }: LinkButtonProps) => {
  return (
-  <Link className={buttonClasses({ size })} href={href}>
+  <Link className={buttonClasses({ size })} href={href} onClick={onClick}>
    {children}
   </Link>
  );

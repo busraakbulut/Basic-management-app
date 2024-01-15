@@ -1,38 +1,53 @@
-import dbConnect from '@/lib/dbConnect';
-import User from '@/models/userSchema';
+import { SignJWT } from 'jose';
+import { jwtSecretKey } from '@/lib/auth';
 import { NextRequest, NextResponse } from 'next/server';
+import User from '@/models/userSchema';
+import bcrypt from 'bcryptjs';
+import dbConnect from '@/lib/dbConnect';
 
-export async function POST(req: NextRequest) {
- try {
-  await dbConnect();
-  const data = await req.json();
-  const { email, password } = data;
-  const isExisting = await User.findOne({ email });
+export async function POST(request: NextRequest) {
+ await dbConnect();
 
-  if (!isExisting) {
-   return NextResponse.json(
-    {
-     error: 'This user does not exist.',
-    },
-    { status: 400 }
-   );
-  }
+ const body = await request.json();
+ const { email, password } = body;
 
+ const user = await User.findOne({ email });
+
+ if (!(user && (await bcrypt.compare(password, user?.password)))) {
   return NextResponse.json(
    {
-    message: 'User logged in successfully.',
-    success: true,
-    data: isExisting,
+    message: 'Email or password wrong!',
+    success: false,
    },
-   { status: 200 }
-  );
- } catch (error) {
-  console.log('Error: ', error);
-  return NextResponse.json(
-   {
-    error: 'User could not enter the system.',
-   },
-   { status: 500 }
+   { status: 400 }
   );
  }
+
+ const token = await generateToken(user._id.toString(), email);
+
+ return NextResponse.json(
+  {
+   message: 'User logged in successfully.',
+   success: true,
+   data: {
+    token,
+   },
+  },
+  { status: 201 }
+ );
+}
+
+async function generateToken(id: any, email: string) {
+ const token = await new SignJWT({
+  id: id,
+  email: email,
+ })
+  .setProtectedHeader({
+   alg: 'HS256',
+  })
+  .setIssuedAt()
+  .setExpirationTime('2h')
+  .sign(jwtSecretKey());
+
+ return token;
 }

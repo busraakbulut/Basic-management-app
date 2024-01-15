@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { BiCheckCircle, BiErrorCircle } from 'react-icons/bi';
 import { registerUserSchema } from '@/yupSchemas/user';
 import ButtonComponent from '@/components/buttons/Button';
+import { Input } from 'postcss';
 
 const Register = () => {
  const { push } = useRouter();
@@ -15,23 +16,24 @@ const Register = () => {
    email: '',
    password: '',
    username: '',
+   confirmPassword: '',
   },
   validationSchema: registerUserSchema,
   onSubmit: async (values) => {
    try {
-    const response = await fetch('http://localhost:3000/api/auth/register', {
+    const response = await fetch('http://localhost:3000/api/account/register', {
      method: 'POST',
      headers: {
       'Content-Type': 'application/json',
      },
-     body: JSON.stringify(values),
+     body: JSON.stringify({ ...values, confirmPassword: null }),
     });
 
-    if (response.status === 200) {
+    if (response.status === 201) {
      toastSuccessNotify('Successfully registered');
-     push('/login');
+     push('/account/login');
     } else {
-     toastWarnNotify('Error');
+     toastWarnNotify('Please try again');
     }
    } catch (error) {
     console.error('Error:', error);
@@ -129,7 +131,33 @@ const Register = () => {
       )}
      </div>
 
-     <ButtonComponent type="submit">Register</ButtonComponent>
+     <div className="relative">
+      <InputField
+       label="Confirm Password"
+       name="confirmPassword"
+       type="password"
+       value={values.confirmPassword}
+       onChange={handleChange}
+       onBlur={handleBlur}
+       InputProps={{ sx: { background: 'white ', borderRadius: 5 } }}
+       helperText={touched.confirmPassword && errors.confirmPassword}
+       error={!!(touched.confirmPassword && errors.confirmPassword)}
+       className="w-full border rounded-md  focus:outline-none focus:ring focus:border-blue-300"
+      />
+      {touched.confirmPassword && errors.confirmPassword ? (
+       <div className="absolute flex inset-y-0 right-3 pt-4 text-red-500">
+        <BiErrorCircle className="text-2xl" />
+       </div>
+      ) : (
+       touched.confirmPassword && (
+        <div className="absolute flex inset-y-0 right-3 pt-4 text-green-500">
+         <BiCheckCircle className="text-2xl" />
+        </div>
+       )
+      )}
+     </div>
+
+     <ButtonComponent type="submit">Log in</ButtonComponent>
     </form>
    </div>
   </div>

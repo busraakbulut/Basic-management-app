@@ -31,17 +31,17 @@ export async function POST(req: NextRequest) {
 
   const {
    product_name,
-   product_description,
    product_category,
-   product_price,
-   product_image,
+   product_amount,
+   amount_unit,
+   company,
   } = data;
   const isExisting = await Product.findOne({
    product_name,
-   product_description,
    product_category,
-   product_price,
-   product_image,
+   product_amount,
+   amount_unit,
+   company,
   });
 
   if (isExisting) {
@@ -55,12 +55,13 @@ export async function POST(req: NextRequest) {
 
   const newProduct = await Product.create({
    product_name,
-   product_description,
    product_category,
-   product_price,
-   product_image,
+   product_amount,
+   amount_unit,
+   company,
   });
 
+  const product = newProduct._doc;
   return NextResponse.json(
    {
     message: 'Product created successfully.',

@@ -1,6 +1,7 @@
 import dbConnect from '@/lib/dbConnect';
 import User from '@/models/userSchema';
 import { NextRequest, NextResponse } from 'next/server';
+import bcrypt from 'bcryptjs';
 
 export async function POST(req: NextRequest) {
  try {
@@ -19,10 +20,11 @@ export async function POST(req: NextRequest) {
    );
   }
 
+  const hashedPassword = await bcrypt.hash(password, 10);
   const newUser = await User.create({
    email,
    username,
-   password,
+   password: hashedPassword,
   });
 
   const user = newUser._doc;
@@ -33,7 +35,7 @@ export async function POST(req: NextRequest) {
     success: true,
     data: user,
    },
-   { status: 200 }
+   { status: 201 }
   );
  } catch (error) {
   console.log('Error: ', error);
