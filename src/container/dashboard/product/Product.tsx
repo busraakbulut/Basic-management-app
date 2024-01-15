@@ -4,7 +4,6 @@ import { Table, Form, Input, InputNumber, Popconfirm, Typography } from 'antd';
 import ButtonComponent from '@/components/buttons/Button';
 import { BiPlus } from 'react-icons/bi';
 import ModalComponent from '@/components/modal/Modal';
-import AddCompany from './AddProductModal';
 import AddProduct from './AddProductModal';
 
 interface Item {

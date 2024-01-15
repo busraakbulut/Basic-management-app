@@ -5,6 +5,7 @@ import ButtonComponent from '@/components/buttons/Button';
 import { BiPlus } from 'react-icons/bi';
 import ModalComponent from '@/components/modal/Modal';
 import AddCompany from './AddCompanyModal';
+import { set } from 'mongoose';
 
 interface Item {
  key: string;
@@ -49,6 +50,7 @@ const Company: React.FC = () => {
  const [form] = Form.useForm();
  const [data, setData] = useState(originData);
  const [editingKey, setEditingKey] = useState('');
+ const [flag, setFlag] = useState(false);
 
  const isEditing = (record: Item) => record.key === editingKey;
 
@@ -72,6 +74,7 @@ const Company: React.FC = () => {
     newData[index] = { ...newData[index], ...row };
     setData(newData);
     setEditingKey('');
+    setFlag(true);
    } else {
     newData.push(row);
     setData(newData);
@@ -189,7 +192,14 @@ const Company: React.FC = () => {
      <ModalComponent
       open={open}
       setOpen={setOpen}
-      content={<AddCompany handleClose={handleClose} />}>
+      content={
+       <AddCompany
+        handleClose={handleClose}
+        setFlag={setFlag}
+        setData={setData}
+        data={data}
+       />
+      }>
       <ButtonComponent className="mb-4  flex bg-gradient rounded-full py-2 px-4">
        <BiPlus className="mr-2 text-2xl text-white " />
        Add Company

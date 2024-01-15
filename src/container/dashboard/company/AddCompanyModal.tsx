@@ -1,15 +1,24 @@
 'use client';
 import ButtonComponent from '@/components/buttons/Button';
 import InputField from '@/components/input/Input';
-import { productSchema } from '@/yupSchemas/product';
+import { toastSuccessNotify } from '@/helper/toasts/toastify';
+import { companySchema } from '@/yupSchemas/company';
 import { useFormik } from 'formik';
 import { BiCheckCircle, BiErrorCircle } from 'react-icons/bi';
 import { RxCross2 } from 'react-icons/rx';
 
 interface addProps {
  handleClose: () => void;
+ setFlag: React.Dispatch<React.SetStateAction<boolean>>;
+ data: any;
+ setData: React.Dispatch<React.SetStateAction<any>>;
 }
-const AddCompany: React.FC<addProps> = ({ handleClose }) => {
+const AddCompany: React.FC<addProps> = ({
+ handleClose,
+ setData,
+ data,
+ setFlag,
+}) => {
  const formik = useFormik({
   initialValues: {
    company_name: '',
@@ -17,7 +26,7 @@ const AddCompany: React.FC<addProps> = ({ handleClose }) => {
    company_legal_number: '',
    company_website: '',
   },
-  validationSchema: productSchema,
+  validationSchema: companySchema,
   onSubmit: (values) => {
    fetch('http://localhost:3000/api/dashboard/company', {
     method: 'POST',
@@ -27,8 +36,10 @@ const AddCompany: React.FC<addProps> = ({ handleClose }) => {
     body: JSON.stringify(values),
    })
     .then((res) => res.json())
-    .then((data) => {
-     console.log(data);
+    .then(() => {
+     setFlag(true);
+     setData([...data, values]);
+     toastSuccessNotify('Company Added Successfully');
     })
     .catch((err) => {
      console.log(err);

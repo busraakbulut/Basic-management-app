@@ -1,8 +1,8 @@
 import ButtonComponent from '@/components/buttons/Button';
 import InputField from '@/components/input/Input';
+import { toastSuccessNotify } from '@/helper/toasts/toastify';
 import { productSchema } from '@/yupSchemas/product';
 import { useFormik } from 'formik';
-import { set } from 'mongoose';
 import React from 'react';
 import { BiCheckCircle, BiErrorCircle } from 'react-icons/bi';
 import { RxCross2 } from 'react-icons/rx';
@@ -39,6 +39,7 @@ const AddProduct: React.FC<addProps> = ({
     .then(() => {
      setFlag(true);
      setData([...data, values]);
+     toastSuccessNotify('Product Added Successfully');
     })
     .catch((err) => {
      console.log(err);
@@ -58,7 +59,7 @@ const AddProduct: React.FC<addProps> = ({
     <div className="relative ">
      <InputField
       type="text"
-      label="Produc Name"
+      label="Product Name"
       name="product_name"
       value={values.product_name}
       onChange={handleChange}
